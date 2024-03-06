@@ -9,7 +9,7 @@ function CompileAndRun()
 	local extension = vim.fn.fnamemodify(path, ":e")
 	local filename = vim.fn.fnamemodify(path, ":t")
 	local filenameOnly = vim.fn.fnamemodify(path, ":t:r")
-	if extension == "cpp" then
+	if extension == "cpp" or extension == "c" then
 		local compile = "g++ -std=c++11 -Wall -Wextra -Wpedantic -O2 -o " .. filenameOnly .. ".out " .. filename
 		local run = "./" .. filenameOnly .. ".out"
 		vim.cmd("term " .. compile .. " && " .. run)
@@ -17,6 +17,12 @@ function CompileAndRun()
         local compile = "ghc -rtsopts -O2 -Wall -o " .. filenameOnly .. ".out " .. filename .. " && rm -f *.o *.hi"
         local run = "./" .. filenameOnly .. ".out"
 		vim.cmd("term " .. compile .. " && " .. run)
+    elseif extension == "py" then
+        local run = "python3 " .. filename
+        vim.cmd("term " .. run)
+    elseif extension == "go" then
+        local run = "go mod tidy && go run ."
+        vim.cmd("term " .. run)
     else
 		print("not a valid file")
 	end

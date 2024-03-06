@@ -1,4 +1,4 @@
--- vim.keymap.set("n", "<leader>pv", -- vim.cmd.Ex)
+-- dovim.keymap.set("n", "<leader>pv", -- vim.cmd.Ex)
 
 -- -- vim.keymap.set('n', '<F5>', ':lua CompileAndRun()<CR>', { noremap = true, silent = true })
 -- vim.keymap.set('n', '<F5>', ':lua CompileAndRun()<CR>')
