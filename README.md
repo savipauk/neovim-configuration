@@ -1,3 +1,4 @@
 ## My Neovim configuration
 
-Haskell and C++ development support.
+
+Haskell, C, C++, HTML, CSS, Javascript, Typescript, Go
