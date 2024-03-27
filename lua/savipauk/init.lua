@@ -10,12 +10,12 @@ function CompileAndRun()
 	local filename = vim.fn.fnamemodify(path, ":t")
 	local filenameOnly = vim.fn.fnamemodify(path, ":t:r")
 	if extension == "cpp" or extension == "c" then
-		local compile = "g++ -std=c++11 -Wall -Wextra -Wpedantic -O2 -o " .. filenameOnly .. ".out " .. filename
-		local run = "./" .. filenameOnly .. ".out"
+		local compile = "g++ -std=c++11 -Wall -Wextra -Wpedantic -O2 -o " .. "out_" .. filenameOnly .. ".out " .. filename
+		local run = "./out_" .. filenameOnly .. ".out"
 		vim.cmd("term " .. compile .. " && " .. run)
     elseif extension == "hs" then
-        local compile = "ghc -rtsopts -O2 -Wall -o " .. filenameOnly .. ".out " .. filename .. " && rm -f *.o *.hi"
-        local run = "./" .. filenameOnly .. ".out"
+        local compile = "ghc -rtsopts -O2 -Wall -o " .. "out_" .. filenameOnly .. ".out " .. filename .. " && rm -f *.o *.hi"
+        local run = "./out_" .. filenameOnly .. ".out"
 		vim.cmd("term " .. compile .. " && " .. run)
     elseif extension == "py" then
         local run = "python3 " .. filename
