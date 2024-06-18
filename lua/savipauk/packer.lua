@@ -11,14 +11,30 @@ return require('packer').startup(function(use)
 
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.3',
+        config = function()
+            require("telescope").setup({
+                defaults = {
+                    file_ignore_patterns = {
+                        "node_modules"
+                    }
+                }
+            })
+        end,
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
+
+
+    use("sainnhe/gruvbox-material")
+    use { 'nyoom-engineering/oxocarbon.nvim' }
+    use { "catppuccin/nvim", as = "catppuccin" }
+
     use {
         "loctvl842/monokai-pro.nvim",
         config = function()
-            require("monokai-pro").setup()
+            require("monokai-pro").setup({
+            })
         end
     }
 
@@ -53,7 +69,6 @@ return require('packer').startup(function(use)
     --     "honza/vim-snippets"
     -- )
 
-    use("morhetz/gruvbox")
 
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
