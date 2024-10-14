@@ -30,12 +30,13 @@ vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true
 vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<C-E>", function()
-    if ls.choice_active() then
-        ls.change_choice(1)
-    end
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
 end, { silent = true })
 
-
+vim.cmd('autocmd BufEnter * set formatoptions-=cro')
+vim.cmd('autocmd BufEnter * setlocal formatoptions-=cro')
 
 
 -- require('snippy').setup({
@@ -70,6 +71,12 @@ end, { silent = true })
 -- vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
+function Format()
+  vim.lsp.buf.format({})
+  vim.cmd('normal! gg=G')
+end
+
+vim.keymap.set("n", "<leader>f", Format)
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
