@@ -1,8 +1,6 @@
 require("savipauk.remap")
 require("savipauk.set")
 
-vim.cmd [[autocmd BufNewFile,BufRead *.ejs set filetype=html]]
-
 function CompileAndRun()
     local path = vim.fn.expand("%:p")
     local extension = vim.fn.fnamemodify(path, ":e")

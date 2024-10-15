@@ -74,7 +74,7 @@ vim.cmd('autocmd BufEnter * setlocal formatoptions-=cro')
 
 function Format()
   vim.lsp.buf.format({})
-  vim.cmd('normal! gg=G')
+  -- vim.cmd('normal! gg=G')
 end
 
 vim.keymap.set("n", "<leader>f", Format)
