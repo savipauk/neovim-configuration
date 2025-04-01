@@ -6,8 +6,8 @@ function CompileAndRun()
     local extension = vim.fn.fnamemodify(path, ":e")
     local filename = vim.fn.fnamemodify(path, ":t")
     local filenameOnly = vim.fn.fnamemodify(path, ":t:r")
-    if extension == "cpp" or extension == "c" then
-        local compile = "g++ -std=c++11 -Wall -Wextra -Wpedantic -O2 -pthread -o " ..
+    if extension == "cpp" or extension == "c" or extension == "cc" then
+        local compile = "g++ -std=c++17 -Wall -Wextra -Wpedantic -O2 -pthread -o " ..
         "out_" .. filenameOnly .. ".out " .. filename
         local run = "./out_" .. filenameOnly .. ".out"
         vim.cmd("term " .. compile .. " && " .. run)
