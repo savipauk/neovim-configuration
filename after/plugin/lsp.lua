@@ -1,60 +1,57 @@
-local lsp_zero = require('lsp-zero')
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local servers = { "clangd", "lua_ls", "gopls", "csharp_ls", "pyright" }
 
-lsp_zero.preset("recommended")
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp-keymaps", { clear = true }),
+  callback = function(event)
+    local opts = { buffer = event.buf, remap = false }
 
-lsp_zero.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
+    -- Navigation
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
+    -- Documentation
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 
-  lsp_zero.default_keymaps({ buffer = bufnr })
-end)
+    -- Workspace
+    vim.keymap.set("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
 
-local lspconfig = require("lspconfig")
-lspconfig.cssls.setup({
-  settings = {
-    css = { validate = false },
-    scss = { validate = false },
-    less = { validate = false }
-  }
+    -- Actions
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
+    -- Diagnostics
+    vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+    vim.keymap.set("n", "]d", function()
+      vim.diagnostic.jump({ count = 1, float = true })
+    end, opts)
+    vim.keymap.set("n", "[d", function()
+      vim.diagnostic.jump({ count = -1, float = true })
+    end, opts)
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+  end,
 })
 
-lspconfig.tailwindcss.setup({
-  init_options = {
-    userLanguages = {
-      html = "html",
-      css = "css",
-      javascript = "javascript",
-      typescript = "typescript",
-      javascriptreact = "javascriptreact",
-      typescriptreact = "typescriptreact",
-      svelte = "html",
-      vue = "html",
-      astro = "html",
-    }
-  },
-  filetypes = {
-    "html", "css", "javascript", "typescript",
-    "javascriptreact", "typescriptreact", "svelte", "vue", "astro"
-  },
+for _, server in ipairs(servers) do
+  vim.lsp.config(server, {
+    capabilities = capabilities,
+  })
+end
+
+vim.lsp.config("lua_ls", {
+  capabilities = capabilities,
   settings = {
-    tailwindCSS = {
-      experimental = {
-        classRegex = {
-          "tw`([^`]*)",            -- tw`...`
-          "class:\\s*\"([^\"]*)",  -- class: "..." (Svelte)
-          "className=([^ ]*)",     -- React className
-          "class=\\s*\"([^\"]*)\"" -- HTML class
-        }
-      }
-    }
-  }
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+    },
+  },
 })
 
-require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = { 'clangd', 'lua_ls' },
-  handlers = {
-    lsp_zero.default_setup,
-  },
+  ensure_installed = {},
+  automatic_enable = servers,
 })

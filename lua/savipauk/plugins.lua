@@ -1,11 +1,11 @@
 return {
-  { 'wbthomason/packer.nvim' }, -- can be removed later
-
-  'windwp/nvim-ts-autotag',
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+  },
 
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.3',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       require("telescope").setup({
@@ -16,15 +16,16 @@ return {
     end
   },
 
-  'sainnhe/gruvbox-material',
-  { 'nyoom-engineering/oxocarbon.nvim' },
-  { "catppuccin/nvim", name = "catppuccin" },
-
   {
     "loctvl842/monokai-pro.nvim",
-    config = function()
-      require("monokai-pro").setup()
-    end
+  },
+
+  {
+    "ellisonleao/gruvbox.nvim",
+  },
+
+  {
+    "nyoom-engineering/oxocarbon.nvim",
   },
 
   {
@@ -36,22 +37,20 @@ return {
     end
   },
 
+
   {
-    'numToStr/Comment.nvim',
+      "echasnovski/mini.comment",
+    version = false,
     config = function()
-      require('Comment').setup()
-    end
+        require("mini.comment").setup()
+    end,
   },
 
   {
-    'mrcjkb/haskell-tools.nvim',
-    version = '^3',
-    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
   },
-
-  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  'nvim-treesitter/playground',
-  'ThePrimeagen/harpoon',
   'mbbill/undotree',
   'tpope/vim-fugitive',
 
@@ -63,23 +62,28 @@ return {
   },
 
   {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
+    'williamboman/mason.nvim',
+    config = true,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
     dependencies = {
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
-      { 'neovim/nvim-lspconfig' },
-      { 'hrsh7th/nvim-cmp' },
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-path' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'hrsh7th/cmp-nvim-lua' },
+      'williamboman/mason.nvim',
+      'neovim/nvim-lspconfig',
+    },
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lua',
+      'saadparwaiz1/cmp_luasnip',
       {
         'L3MON4D3/LuaSnip',
         dependencies = { 'rafamadriz/friendly-snippets' },
       },
-    }
+    },
   }
 }
-
