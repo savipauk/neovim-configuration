@@ -1,7 +1,20 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
+    lazy = false,
+    config = function()
+      require("nvim-treesitter").install({
+        "c", "html", "javascript", "json", "typescript", "go", "lua", "query",
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter-highlight", {}),
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
+    end
   },
 
   {
@@ -31,9 +44,19 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
-    opts = {},
     config = function()
-      require("ibl").setup()
+      local hooks = require("ibl.hooks")
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "IblIndent", { fg = "#3b3c35" })
+        vim.api.nvim_set_hl(0, "IblScope", { fg = "#9d9e91" })
+      end)
+      require("ibl").setup({
+        indent = { char = "▎" },
+        scope = {
+          show_start = false,
+          show_end = false,
+        },
+      })
     end
   },
 
