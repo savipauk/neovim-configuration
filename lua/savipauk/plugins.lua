@@ -6,7 +6,7 @@ return {
     lazy = false,
     config = function()
       require("nvim-treesitter").install({
-        "c", "html", "javascript", "json", "typescript", "go", "lua", "query",
+        "c", "cpp", "html", "javascript", "json", "typescript", "go", "lua", "query",
       })
       vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("treesitter-highlight", {}),
